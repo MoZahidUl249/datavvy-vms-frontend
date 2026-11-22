@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VMS — Vehicles</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F7FA;font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;color:#1F2937;-webkit-font-smoothing:antialiased}
+a{color:#2E75B6}a:hover{color:#1F4E79}
+.nav a{color:rgba(255,255,255,.78);text-decoration:none}
+.nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.btn:focus-visible{outline:3px solid rgba(91,155,213,.55);outline-offset:2px}
+.btn{text-decoration:none}
+.btn-p:hover{background:#4A8AC4 !important;color:#fff}
+.btn-s:hover{background:#EEF2F7 !important;color:#1F2937}
+.row:hover{background:#F8FAFC}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</helmet>
+<div style="position: relative; display: flex; flex-wrap: wrap; min-height: 100vh; background: #F5F7FA">
+
+<aside class="nav" style="flex: 1 1 248px; background: #1F4E79; color: #FFFFFF; padding: 20px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #5B9BD5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+<div style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em">Fleet Console</span><span style="font-size: 12px; color: rgba(255,255,255,.65)">Vehicle Management</span></div>
+</div>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.6); padding: 0 12px 6px">Fleet</span>
+<a href="Vehicles.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 600; background: rgba(255,255,255,.14); color: #FFFFFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg>Vehicles</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>Drivers</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></svg>Trips</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.6); padding: 0 12px 6px">Operations</span>
+<a href="Maintenance.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L11 20a2.1 2.1 0 0 1-3-3l8.7-8.7z"/><path d="M14.7 6.3L17 4"/></svg>Maintenance</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16M3 21h13M4 10h11M15 8l3 3v6a1.5 1.5 0 0 0 3 0V9l-3-3"/></svg>Fuel logs</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Reports</a>
+</div>
+</nav>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 2px">
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>Settings</a>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,.12)">
+<div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">RA</div>
+<div style="display: flex; flex-direction: column"><span style="font-size: 13px; font-weight: 600">Rahim Ahmed</span><span style="font-size: 12px; color: rgba(255,255,255,.65)">Fleet Manager</span></div>
+</div>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px 40px 48px; box-sizing: border-box">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<nav aria-label="Breadcrumb" style="font-size: 13px; color: #6B7280; font-weight: 500">Fleet</nav>
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.02em">Vehicles</h1>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<a href="#" class="btn btn-s" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E2E8F0; color: #1F2937; font-size: 15px; font-weight: 500; box-sizing: border-box">Export</a>
+<a href="VehicleForm.dc.html" class="btn btn-p" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; font-size: 15px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add vehicle</a>
+</div>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; overflow: hidden">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid #F1F4F8">
+<div role="group" aria-label="Filter by status" style="display: inline-flex; padding: 3px; background: #EEF2F7; border-radius: 10px; gap: 2px">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="4">
+<button type="button" onClick="{{tab.pick}}" aria-pressed="{{tab.on}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; background: {{tab.bg}}; color: {{tab.fg}}; box-shadow: {{tab.shadow}}">{{tab.label}} <span style="font-weight: 500; color: #6B7280">{{tab.count}}</span></button>
+</sc-for>
+</div>
+<label style="position: relative; display: flex; align-items: center; flex: 0 1 300px">
+<span class="sr">Search vehicles</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 12px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+<input type="search" value="{{query}}" onInput="{{onQuery}}" placeholder="Plate, model or driver" style="width: 100%; height: 40px; box-sizing: border-box; padding: 0 12px 0 36px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 14px; color: #1F2937">
+</label>
+</div>
+
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 860px">
+<thead><tr style="background: #F8FAFC; text-align: left; color: #6B7280; font-size: 12px; text-transform: uppercase; letter-spacing: .04em">
+<th style="padding: 10px 20px; font-weight: 600">Vehicle</th><th style="padding: 10px 12px; font-weight: 600">Type</th><th style="padding: 10px 12px; font-weight: 600">Assigned driver</th><th style="padding: 10px 12px; font-weight: 600; text-align: right">Odometer</th><th style="padding: 10px 12px; font-weight: 600">Next service</th><th style="padding: 10px 12px; font-weight: 600">Status</th><th style="padding: 10px 20px; font-weight: 600; text-align: right"><span class="sr">Actions</span></th>
+</tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="v" hint-placeholder-count="6">
+<tr class="row" style="border-top: 1px solid #F1F4F8">
+<td style="padding: 12px 20px"><div style="display: flex; align-items: center; gap: 12px">
+<div style="width: 40px; height: 40px; border-radius: 10px; background: #F1F5F9; display: flex; align-items: center; justify-content: center; flex: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F4E79" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+<div style="display: flex; flex-direction: column"><a href="VehicleDetail.dc.html" style="font-weight: 600; color: #1F2937; text-decoration: none">{{v.plate}}</a><span style="font-size: 13px; color: #6B7280">{{v.model}}</span></div>
+</div></td>
+<td style="padding: 12px; color: #4B5563">{{v.type}}</td>
+<td style="padding: 12px">{{v.driver}}</td>
+<td style="padding: 12px; text-align: right; font-variant-numeric: tabular-nums; color: #4B5563">{{v.odo}}</td>
+<td style="padding: 12px; color: #4B5563">{{v.service}}</td>
+<td style="padding: 12px"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: {{v.bg}}; color: {{v.fg}}"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{v.dot}}"></span>{{v.statusLabel}}</span></td>
+<td style="padding: 12px 20px"><div style="display: flex; justify-content: flex-end; gap: 4px">
+<a href="VehicleForm.dc.html" aria-label="Edit {{v.plate}}" style="width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #4B5563"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg></a>
+<button type="button" onClick="{{v.ask}}" aria-label="Delete {{v.plate}}" style="width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; display: flex; align-items: center; justify-content: center; color: #6B7280; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+</div></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<sc-if value="{{empty}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 56px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<span style="font-size: 17px; font-weight: 600">No vehicles match</span>
+<span style="font-size: 14px; color: #6B7280">Try a different plate, model or status.</span>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid #F1F4F8; font-size: 13px; color: #6B7280">
+<span>Showing {{shown}} of 48 vehicles</span>
+<div style="display: flex; gap: 8px">
+<button type="button" style="height: 36px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 8px; background: #FFFFFF; font: inherit; font-size: 13px; font-weight: 500; color: #9CA3AF" disabled="disabled">Previous</button>
+<button type="button" style="height: 36px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 8px; background: #FFFFFF; font: inherit; font-size: 13px; font-weight: 500; color: #1F2937; cursor: pointer">Next</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+<sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #1F2937; color: #FFFFFF; border-radius: 12px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 24px rgba(16,24,40,.18)">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>{{toast}} deleted
+<button type="button" onClick="{{undo}}" style="margin-left: 8px; border: 0; background: transparent; color: #9CC3E8; font: inherit; font-weight: 600; cursor: pointer; padding: 4px 6px">Undo</button>
+</div>
+</sc-if>
+
+<sc-if value="{{confirming}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; background: rgba(15,23,42,.36); display: flex; align-items: flex-start; justify-content: center; padding-top: 180px">
+<div role="alertdialog" aria-modal="true" aria-labelledby="del-title" aria-describedby="del-desc" style="width: 400px; max-width: calc(100% - 32px); background: #FFFFFF; border-radius: 16px; padding: 24px; box-shadow: 0 24px 48px rgba(16,24,40,.22); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #FEE2E2; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></div>
+<h2 id="del-title" style="margin: 8px 0 0; font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Delete {{pending}}?</h2>
+<p id="del-desc" style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5563">The vehicle is removed from the fleet. Its trip, fuel and service history stays in Reports.</p>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" onClick="{{cancel}}" style="flex: 1; height: 44px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 15px; font-weight: 600; color: #1F2937; cursor: pointer">Cancel</button>
+<button type="button" onClick="{{confirm}}" style="flex: 1; height: 44px; border: 0; border-radius: 10px; background: #DC2626; font: inherit; font-size: 15px; font-weight: 600; color: #FFFFFF; cursor: pointer">Delete</button>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      q: '', filter: 'all', pending: null, toast: null, last: null,
+      list: [
+        { id: 1, plate: 'DHA-METRO-GA 11-4582', model: 'Toyota Hiace 2021', type: 'Microbus', driver: 'Kamal Hossain', odo: '84,210 km', service: '24 Nov 2026', status: 'active' },
+        { id: 2, plate: 'CTG-METRO-TA 12-0931', model: 'Isuzu NPR 2019', type: 'Truck', driver: 'Jahid Islam', odo: '162,940 km', service: '2 Dec 2026', status: 'active' },
+        { id: 3, plate: 'DHA-METRO-KHA 14-2210', model: 'Toyota Axio 2020', type: 'Sedan', driver: 'Sumon Mia', odo: '58,330 km', service: '19 Jan 2027', status: 'active' },
+        { id: 4, plate: 'DHA-METRO-GHA 19-7710', model: 'Mitsubishi L200 2022', type: 'Pickup', driver: 'Arif Rahman', odo: '41,075 km', service: '5 Dec 2026', status: 'active' },
+        { id: 5, plate: 'DHA-METRO-CHA 15-3307', model: 'Tata Ultra 2018', type: 'Truck', driver: '—', odo: '201,560 km', service: 'In workshop', status: 'maintenance' },
+        { id: 6, plate: 'DHA-METRO-GA 13-8824', model: 'Toyota Noah 2017', type: 'Microbus', driver: '—', odo: '176,400 km', service: '—', status: 'inactive' }
+      ]
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const styles = {
+      active: { statusLabel: 'Active', bg: '#DCFCE7', fg: '#166534', dot: '#16A34A' },
+      maintenance: { statusLabel: 'In maintenance', bg: '#EAF2FA', fg: '#1F4E79', dot: '#5B9BD5' },
+      inactive: { statusLabel: 'Inactive', bg: '#F1F5F9', fg: '#475569', dot: '#94A3B8' }
+    };
+    const q = s.q.trim().toLowerCase();
+    const rows = s.list
+      .filter(v => s.filter === 'all' || v.status === s.filter)
+      .filter(v => !q || (v.plate + v.model + v.driver).toLowerCase().includes(q))
+      .map(v => ({ ...v, ...styles[v.status], ask: () => this.setState({ pending: v }) }));
+    const count = k => k === 'all' ? s.list.length : s.list.filter(v => v.status === k).length;
+    const tabs = [['all','All'],['active','Active'],['maintenance','Maintenance'],['inactive','Inactive']].map(([k, label]) => {
+      const on = s.filter === k;
+      return { label, count: count(k), on: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#1F2937' : '#4B5563', shadow: on ? '0 1px 2px rgba(16,24,40,.12)' : 'none', pick: () => this.setState({ filter: k }) };
+    });
+    return {
+      tabs, rows, empty: rows.length === 0, shown: rows.length, query: s.q,
+      onQuery: e => this.setState({ q: e.target.value }),
+      confirming: !!s.pending, pending: s.pending ? s.pending.plate : '',
+      cancel: () => this.setState({ pending: null }),
+      confirm: () => this.setState({ list: s.list.filter(v => v.id !== s.pending.id), last: s.pending, toast: s.pending.plate, pending: null }),
+      toast: s.toast,
+      undo: () => this.setState({ list: [...s.list, s.last].sort((a, b) => a.id - b.id), toast: null, last: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Every path has an owning team; GitHub requests their review automatically.
+# Team names are placeholders — replace with your org's real GitHub teams.
+
+*                                 @datavvy/architecture
+
+# Agent configuration and shared standards
+/AGENTS.md                        @datavvy/architecture
+/.agents/                         @datavvy/architecture
+/docs/                            @datavvy/architecture
+
+# App shell and workspace
+/pubspec.yaml                     @datavvy/frontend-leads
+/lib/                             @datavvy/frontend-leads
+
+# Packages
+/packages/vms_core/               @datavvy/platform-team
+/packages/vms_design_system/      @datavvy/design-system-team
+/packages/vms_catalog/            @datavvy/fleet-settings-team
+/packages/feature_auth/           @datavvy/platform-team
+/packages/feature_settings/       @datavvy/fleet-settings-team
+/packages/feature_vehicles/       @datavvy/fleet-core-team
+/packages/feature_dashboard/      @datavvy/insights-team
+
+# Design source
+/layout/                          @datavvy/design-system-team
+
+# Deployment
+/netlify.toml                     @datavvy/platform-team
+/netlify-build.sh                 @datavvy/platform-team

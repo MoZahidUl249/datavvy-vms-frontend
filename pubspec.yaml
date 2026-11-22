@@ -1,0 +1,50 @@
+name: vms_app
+description: "Datavvy VMS web app (Flutter Web only) — the app shell that composes the feature packages."
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.14.0
+
+# Pub workspace: one resolution for every package below. Each team owns one or
+# more packages (see /.github/CODEOWNERS). Add a package = add it here + to
+# the dependencies below + register its FeatureModule in lib/main.dart.
+workspace:
+  - packages/vms_core
+  - packages/vms_design_system
+  - packages/vms_catalog
+  - packages/feature_auth
+  - packages/feature_dashboard
+  - packages/feature_vehicles
+  - packages/feature_settings
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  material_ui: ^1.1.0
+  go_router: '>=16.0.0 <18.0.0'
+  http: ^1.2.0
+  vms_core:
+    path: packages/vms_core
+  vms_design_system:
+    path: packages/vms_design_system
+  vms_catalog:
+    path: packages/vms_catalog
+  feature_auth:
+    path: packages/feature_auth
+  feature_dashboard:
+    path: packages/feature_dashboard
+  feature_vehicles:
+    path: packages/feature_vehicles
+  feature_settings:
+    path: packages/feature_settings
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

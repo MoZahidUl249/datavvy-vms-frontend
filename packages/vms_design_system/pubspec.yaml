@@ -1,0 +1,17 @@
+name: vms_design_system
+description: "VMS design system: tokens, theme and shared widgets (mirrors .agents/skills/vms-ui)."
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

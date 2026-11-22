@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VMS V3 — Component refinements</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F7FA;font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;color:#1F2937;-webkit-font-smoothing:antialiased}
+a{color:#2E75B6}a:hover{color:#1F4E79}
+@keyframes vms-shimmer{0%{background-position:-240px 0}100%{background-position:240px 0}}
+@keyframes vms-spin{to{transform:rotate(360deg)}}
+.skel{background:linear-gradient(90deg,#EDF1F6 0px,#F6F8FB 80px,#EDF1F6 160px);background-size:480px 100%;animation:vms-shimmer 1.3s linear infinite}
+.spin{animation:vms-spin .8s linear infinite}
+@media (prefers-reduced-motion: reduce){.skel,.spin{animation:none}}
+</style>
+</helmet>
+<div style="padding: 48px 40px 72px; box-sizing: border-box; min-height: 100vh; background: #F5F7FA">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79; letter-spacing: .06em; text-transform: uppercase">V3 · refined from V2</span>
+<h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.02em">Component refinements</h1>
+<p style="margin: 0; font-size: 15px; line-height: 22px; color: #6B7280; max-width: 680px">Seven components, refined one at a time. Same palette, type and radius as V2. Mock data only, no API calls.</p>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">1 · Navigation</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Sidebar is for places only. “Register vehicle” moved out of it; it's an action, so it lives on the page.</li>
+<li>One item, Vehicles, with a live count badge.</li>
+<li>New breadcrumb bar on top of every screen: Vehicles › DHA-METRO-GA 11-4582.</li>
+<li>Every item is 44 px tall.</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; display: flex; gap: 0; border: 1px solid #E8ECF2; border-radius: 12px; overflow: hidden; min-height: 180px">
+<div style="width: 200px; background: #1F4E79; padding: 14px 10px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.6); padding: 0 10px">Fleet</span>
+<span style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 10px; border-radius: 10px; background: rgba(255,255,255,.14); color: #FFFFFF; font-size: 14px; font-weight: 600"><span style="flex: 1">Vehicles</span><span style="min-width: 22px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 12px; display: flex; align-items: center; justify-content: center">8</span></span>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column">
+<div style="height: 48px; padding: 0 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #E8ECF2; font-size: 13px"><span style="color: #2E75B6; font-weight: 500">Vehicles</span><span style="color: #9CA3AF">›</span><span style="font-weight: 600">DHA-METRO-GA 11-4582</span></div>
+<div style="flex: 1; background: #F5F7FA"></div>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">2 · Table / list</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Registration and vehicle merged into one column: number on top, make · model · year below. 7 columns become 6.</li>
+<li>Fixed 64 px rows; the whole number is clickable to edit.</li>
+<li>Sort by Vehicle or Last updated. Arrows show the active sort.</li>
+<li>Row actions are quieter until you hover. Delete turns red only on hover.</li>
+<li>A row you just saved flashes light blue for 2 seconds.</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; border: 1px solid #E8ECF2; border-radius: 12px; overflow: hidden; font-size: 14px">
+<div style="display: flex; align-items: center; height: 40px; padding: 0 16px; border-bottom: 1px solid #EEF2F6; font-size: 12px; font-weight: 600; color: #6B7280; gap: 12px"><span style="flex: 2; color: #1F2937">Vehicle ▲</span><span style="flex: 1">Status</span><span style="flex: 1">Last updated</span><span style="width: 76px"></span></div>
+<div style="display: flex; align-items: center; height: 64px; padding: 0 16px; gap: 12px; background: #E3F0FB">
+<span style="flex: 2; display: flex; flex-direction: column; gap: 2px"><b style="font-weight: 600">DHA-METRO-GA 11-4582</b><span style="font-size: 13px; color: #6B7280">Toyota Hiace · 2021</span></span>
+<span style="flex: 1"><span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #DCFCE7; color: #166534"><span style="width: 6px; height: 6px; border-radius: 50%; background: #16A34A"></span>Active</span></span>
+<span style="flex: 1; color: #6B7280">21 Nov</span>
+<span style="width: 76px; display: flex; gap: 4px; justify-content: flex-end"><span style="width: 36px; height: 36px; border-radius: 8px; background: #EEF2F7"></span><span style="width: 36px; height: 36px; border-radius: 8px; background: #FEF2F2"></span></span>
+</div>
+<div style="display: flex; align-items: center; height: 64px; padding: 0 16px; gap: 12px; border-top: 1px solid #F1F4F8">
+<span style="flex: 2; display: flex; flex-direction: column; gap: 2px"><b style="font-weight: 600">DHA-METRO-CHA 15-3307</b><span style="font-size: 13px; color: #6B7280">Tata Ultra 1014 · 2018</span></span>
+<span style="flex: 1"><span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #F1F5F9; color: #475569"><span style="width: 6px; height: 6px; border-radius: 50%; background: #94A3B8"></span>Inactive</span></span>
+<span style="flex: 1; color: #6B7280">30 Oct</span><span style="width: 76px"></span>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">3 · Form spacing</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Settings-style layout: section title and description on the left, fields on the right.</li>
+<li>One card with dividers instead of three separate cards; actions sit in its footer.</li>
+<li>8 px grid: label 8 → input 44 → message line 18 (space kept even when empty, so nothing jumps).</li>
+<li>Asterisks removed. Only optional fields carry a quiet “Optional” label.</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; border: 1px solid #E8ECF2; border-radius: 12px; overflow: hidden">
+<div style="display: flex; gap: 24px; padding: 20px">
+<div style="width: 140px; display: flex; flex-direction: column; gap: 4px"><b style="font-size: 14px; font-weight: 600">Vehicle details</b><span style="font-size: 12px; color: #6B7280">Shown in the list.</span></div>
+<div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px">
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; font-weight: 600; color: #374151">Make</span><span style="height: 44px; border: 1px solid #D5DCE5; border-radius: 10px; display: flex; align-items: center; padding: 0 12px; font-size: 15px">Toyota</span><span style="height: 18px"></span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; font-weight: 600; color: #374151; display: flex; justify-content: space-between">Year<span style="font-weight: 400; color: #6B7280">Optional</span></span><span style="height: 44px; border: 1px solid #D5DCE5; border-radius: 10px; display: flex; align-items: center; padding: 0 12px; font-size: 15px; color: #9CA3AF">2021</span><span style="height: 18px"></span></div>
+</div>
+</div>
+<div style="display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; background: #F8FAFC; border-top: 1px solid #EEF2F6"><span style="height: 36px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; display: flex; align-items: center; font-size: 14px">Cancel</span><span style="height: 36px; padding: 0 16px; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; display: flex; align-items: center; font-size: 14px; font-weight: 600">Save changes</span></div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">4 · Buttons</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Three sizes: 44 px page actions, 36 px toolbar and row actions, 36 px icon buttons with tooltips.</li>
+<li>Every button has hover, pressed (slightly smaller), focus ring, disabled and loading states.</li>
+<li>The label says the result: “Register vehicle”, “Save changes”, “No changes” while nothing is edited.</li>
+<li>A saving button keeps its width, so the layout doesn't jump.</li>
+<li>Contrast choice under Tweaks: brand #5B9BD5 (2.9:1 with white) or #2E75B6 (4.8:1, passes WCAG AA).</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+<span style="height: 44px; padding: 0 20px; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; display: inline-flex; align-items: center; font-size: 15px; font-weight: 600">Register vehicle</span>
+<span style="height: 44px; padding: 0 20px; border-radius: 10px; background: #2E75B6; color: #FFFFFF; display: inline-flex; align-items: center; font-size: 15px; font-weight: 600">Register vehicle</span>
+<span style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #E2E8F0; background: #FFFFFF; display: inline-flex; align-items: center; font-size: 15px; font-weight: 500; box-sizing: border-box">Cancel</span>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+<span style="min-width: 168px; height: 44px; padding: 0 20px; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; font-weight: 600; box-sizing: border-box"><span class="spin" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.45); border-top-color: #FFFFFF; box-sizing: border-box"></span>Saving…</span>
+<span style="min-width: 168px; height: 44px; padding: 0 20px; border-radius: 10px; background: #E2E8F0; color: #94A3B8; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; box-sizing: border-box">No changes</span>
+<span style="height: 44px; padding: 0 20px; border-radius: 10px; background: #DC2626; color: #FFFFFF; display: inline-flex; align-items: center; font-size: 15px; font-weight: 600">Delete</span>
+</div>
+<div style="display: flex; gap: 6px; align-items: center"><span style="width: 36px; height: 36px; border-radius: 8px; background: #EEF2F7; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg></span><span style="width: 36px; height: 36px; border-radius: 8px; background: #FEF2F2; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span><span style="font-size: 13px; color: #6B7280; margin-left: 6px">Icon buttons on hover</span></div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">5 · Empty states</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Two different cases. First run: a heading that invites action plus one primary button.</li>
+<li>No results: repeats the search and filter back to you and offers the exact way out (Clear search, Show all statuses).</li>
+<li>Try the first-run case with Tweaks › data: empty.</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="border: 1px solid #E8ECF2; border-radius: 12px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+<div style="width: 48px; height: 48px; border-radius: 14px; background: #EAF2FA; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F4E79" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+<b style="font-size: 15px; font-weight: 600">Register your first vehicle</b>
+<span style="font-size: 12px; color: #6B7280">Other details can come later.</span>
+<span style="margin-top: 8px; height: 36px; padding: 0 14px; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; display: inline-flex; align-items: center; font-size: 13px; font-weight: 600">Register vehicle</span>
+</div>
+<div style="border: 1px solid #E8ECF2; border-radius: 12px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+<div style="width: 48px; height: 48px; border-radius: 14px; background: #F1F5F9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></div>
+<b style="font-size: 15px; font-weight: 600">No matching vehicles</b>
+<span style="font-size: 12px; color: #6B7280">Nothing matches “4583” among active vehicles.</span>
+<span style="margin-top: 8px; display: flex; gap: 6px"><span style="height: 32px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 8px; display: inline-flex; align-items: center; font-size: 12px">Clear search</span><span style="height: 32px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 8px; display: inline-flex; align-items: center; font-size: 12px">Show all</span></span>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">6 · Loading states</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Placeholder rows take the exact shape of real rows (two lines, status pill), so nothing shifts when data arrives.</li>
+<li>Header, filters and search stay usable while rows load.</li>
+<li>Soft shimmer instead of blinking; it stops for people who turn on reduced motion.</li>
+<li>Saving locks the form fields and shows a spinner in the button.</li>
+<li>Try different load times with Tweaks › loadDelay.</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; border: 1px solid #E8ECF2; border-radius: 12px; overflow: hidden">
+<div style="display: flex; align-items: center; height: 64px; padding: 0 16px; gap: 16px"><div style="flex: 2; display: flex; flex-direction: column; gap: 8px"><div class="skel" style="height: 12px; width: 168px; border-radius: 6px"></div><div class="skel" style="height: 10px; width: 120px; border-radius: 5px"></div></div><div class="skel" style="height: 22px; width: 68px; border-radius: 999px"></div><div class="skel" style="height: 12px; width: 52px; border-radius: 6px"></div></div>
+<div style="display: flex; align-items: center; height: 64px; padding: 0 16px; gap: 16px; border-top: 1px solid #F1F4F8"><div style="flex: 2; display: flex; flex-direction: column; gap: 8px"><div class="skel" style="height: 12px; width: 150px; border-radius: 6px"></div><div class="skel" style="height: 10px; width: 96px; border-radius: 5px"></div></div><div class="skel" style="height: 22px; width: 68px; border-radius: 999px"></div><div class="skel" style="height: 12px; width: 52px; border-radius: 6px"></div></div>
+<div style="display: flex; align-items: center; height: 64px; padding: 0 16px; gap: 16px; border-top: 1px solid #F1F4F8"><div style="flex: 2; display: flex; flex-direction: column; gap: 8px"><div class="skel" style="height: 12px; width: 176px; border-radius: 6px"></div><div class="skel" style="height: 10px; width: 132px; border-radius: 5px"></div></div><div class="skel" style="height: 22px; width: 68px; border-radius: 999px"></div><div class="skel" style="height: 12px; width: 52px; border-radius: 6px"></div></div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 40px">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; font-weight: 600; color: #1F4E79">7 · Validation messages</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 22px; color: #374151">
+<li>Errors appear when you leave a field or press Save, never while you're still typing. They disappear as soon as the field is fixed.</li>
+<li>Exception: a duplicate number shows right away, with “Open that vehicle”.</li>
+<li>Every message says how to fix it, with an example (“like Toyota”).</li>
+<li>Icon + red text + red border, so the error doesn't rely on colour alone. Screen readers read it from the field.</li>
+<li>On Save, a summary at the top lists each problem as a link that jumps to the field.</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 400px">
+<span style="font-size: 13px; font-weight: 600; color: #374151">Registration number</span>
+<span style="height: 44px; border: 1px solid #DC2626; border-radius: 10px; display: flex; align-items: center; padding: 0 12px; font-size: 15px; font-weight: 500">DHA METRO GA 11 4582</span>
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; color: #DC2626; font-weight: 500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>DHA-METRO-GA 11-4582 is already registered to a Toyota Hiace.<span style="color: #2E75B6; font-weight: 600; text-decoration: underline">Open that vehicle</span></span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 400px">
+<span style="font-size: 13px; font-weight: 600; color: #374151">Registration number</span>
+<span style="height: 44px; border: 1px solid #16A34A; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 15px; font-weight: 500">DHA-METRO-GA 11-9001<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span>
+<span style="font-size: 13px; line-height: 18px; color: #166534; font-weight: 500">Available.</span>
+</div>
+<div style="display: flex; gap: 12px; padding: 14px 16px; border-radius: 12px; background: #FEF2F2; color: #991B1B; font-size: 13px; line-height: 19px; max-width: 460px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+<div style="display: flex; flex-direction: column; gap: 4px"><b style="font-weight: 600">Fix 2 fields to save this vehicle</b><span style="text-decoration: underline">Vehicle type: Choose a vehicle type.</span><span style="text-decoration: underline">Model: Enter the model, like Hiace.</span></div>
+</div>
+</div>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2400}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

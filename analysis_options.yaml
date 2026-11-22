@@ -1,0 +1,17 @@
+# Applies to the app and every workspace package (packages inherit this file).
+# Stricter rules (strict-casts, require_trailing_commas, ...) can be switched on
+# once the codebase is formatted and clean — see docs/roadmap.md in the backend repo.
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - "**/build/**"
+    - web/**
+
+linter:
+  rules:
+    - prefer_single_quotes
+    - unawaited_futures
+    - avoid_dynamic_calls
+    - use_super_parameters

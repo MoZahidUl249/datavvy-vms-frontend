@@ -1,0 +1,51 @@
+/* VMS design tokens — mirrors the V8 design canvas */
+:root {
+  /* colour roles */
+  --vms-nav: #1F4E79;
+  --vms-primary: #5B9BD5;
+  --vms-primary-accessible: #2E75B6;   /* text links; AA-safe primary fill */
+  --vms-page: #F5F7FA;
+  --vms-surface: #FFFFFF;
+  --vms-surface-subtle: #F8FAFC;       /* table header, form footer, plate badge */
+  --vms-text: #1F2937;
+  --vms-text-secondary: #4B5563;
+  --vms-text-meta: #6B7280;
+  --vms-label: #374151;
+  --vms-success: #16A34A;
+  --vms-success-bg: #DCFCE7;
+  --vms-success-text: #166534;
+  --vms-danger: #DC2626;
+  --vms-danger-bg: #FEF2F2;
+  --vms-danger-text: #991B1B;
+  --vms-info-bg: #EAF2FA;              /* chips, neutral pills */
+  --vms-selected-bg: #F0F7FD;          /* active filter field, saved-row flash base */
+  --vms-border-input: #D5DCE5;
+  --vms-border-card: #E8ECF2;
+  --vms-border-plate: #C9D3DF;
+  --vms-divider: #EEF2F6;
+  --vms-track: #EEF2F7;                /* segmented control track */
+  --vms-switch-off: #CBD5E1;
+
+  /* type */
+  --vms-font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --vms-fs-title: 28px;  --vms-lh-title: 34px;
+  --vms-fs-h2: 17px;     --vms-fs-section: 15px;
+  --vms-fs-body: 15px;   --vms-fs-table: 14px;
+  --vms-fs-meta: 13px;   --vms-fs-label: 13px;  --vms-fs-th: 12px;
+
+  /* space (8 pt grid) */
+  --vms-s1: 4px; --vms-s2: 8px; --vms-s3: 12px; --vms-s4: 16px; --vms-s5: 24px; --vms-s6: 32px;
+
+  /* radius */
+  --vms-r-plate: 6px; --vms-r-sm: 8px; --vms-r-ctl: 10px; --vms-r-group: 12px;
+  --vms-r-card: 14px; --vms-r-dialog: 16px; --vms-r-pill: 999px;
+
+  /* sizes */
+  --vms-h-ctl: 44px; --vms-h-ctl-sm: 36px; --vms-h-row: 68px; --vms-sidebar: 240px;
+
+  /* elevation (floating layers only) */
+  --vms-shadow-popover: 0 20px 44px rgba(16, 24, 40, .18);
+  --vms-shadow-dialog: 0 24px 48px rgba(16, 24, 40, .22);
+  --vms-shadow-toast: 0 12px 32px rgba(16, 24, 40, .22);
+  --vms-focus-ring: 0 0 0 3px rgba(91, 155, 213, .55);
+}

@@ -1,0 +1,18 @@
+name: vms_catalog
+description: "Catalog data (vehicle types) shared by features."
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  vms_core:
+    path: ../vms_core
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

@@ -1,0 +1,21 @@
+# Netlify site for the Flutter web app.
+# Set VMS_API_BASE_URL (the Render API, ending in /api) in the site's
+# environment variables. Optional: FLUTTER_VERSION to pin the SDK
+# (a tag such as 3.50.1; default: stable).
+[build]
+  command = "bash netlify-build.sh"
+  publish = "build/web"
+
+# Deep links (/vehicles/12) are app routes: serve index.html for them.
+# web/_redirects does the same for manual (drag-and-drop) deploys.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"

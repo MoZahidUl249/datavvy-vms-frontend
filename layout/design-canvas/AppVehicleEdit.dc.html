@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VMS — Edit vehicle</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F7FA;font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;color:#1F2937;-webkit-font-smoothing:antialiased}
+a{color:#2E75B6}a:hover{color:#1F4E79}
+.nav button:hover{background:rgba(255,255,255,.08) !important;color:#fff !important}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(91,155,213,.55);outline-offset:2px}
+input:focus,select:focus{border-color:#5B9BD5 !important}
+.btn-p:hover:not(:disabled){background:#4A8AC4 !important}
+.btn-s:hover{background:#EEF2F7 !important}
+.icon-btn:hover{background:#EEF2F7 !important;color:#1F2937 !important}
+.icon-del:hover{background:#FEF2F2 !important;color:#DC2626 !important}
+.row:hover{background:#F8FAFC}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@keyframes vms-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes vms-spin{to{transform:rotate(360deg)}}
+.skel{animation:vms-pulse 1.2s ease-in-out infinite}
+.spin{animation:vms-spin .8s linear infinite}
+</style>
+</helmet>
+<div style="position: relative; min-height: 100vh; background: #F5F7FA">
+
+<sc-if value="{{isLogin}}" hint-placeholder-val="{{ true }}">
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 48px 20px; box-sizing: border-box">
+<form onSubmit="{{signIn}}" novalidate="novalidate" style="width: 400px; max-width: 100%; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<div style="width: 56px; height: 56px; border-radius: 16px; background: #1F4E79; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 700; letter-spacing: -0.02em">Sign in to Fleet Console</h1>
+<p style="margin: 0; font-size: 15px; color: #6B7280">Manage every vehicle in your fleet.</p>
+</div>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<sc-if value="{{loginErr}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>{{loginErr}}</div>
+</sc-if>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Email
+<input type="email" autocomplete="username" value="{{email}}" onInput="{{onEmail}}" placeholder="name@company.com" aria-invalid="{{emailInvalid}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{emailBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF">
+<sc-if value="{{emailErr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 500; color: #DC2626">{{emailErr}}</span></sc-if>
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Password
+<span style="position: relative; display: flex">
+<input type="{{pwType}}" autocomplete="current-password" value="{{password}}" onInput="{{onPassword}}" aria-invalid="{{pwInvalid}}" style="flex: 1; height: 44px; box-sizing: border-box; padding: 0 64px 0 12px; border: 1px solid {{pwBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF">
+<button type="button" onClick="{{togglePw}}" style="position: absolute; right: 4px; top: 4px; height: 36px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; font: inherit; font-size: 13px; font-weight: 600; color: #2E75B6; cursor: pointer">{{pwToggleLabel}}</button>
+</span>
+<sc-if value="{{pwErr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 500; color: #DC2626">{{pwErr}}</span></sc-if>
+</label>
+<button type="submit" class="btn-p" disabled="{{signingIn}}" style="height: 48px; border: 0; border-radius: 12px; background: #5B9BD5; color: #FFFFFF; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px">
+<sc-if value="{{signingIn}}" hint-placeholder-val="{{ false }}"><span class="spin" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.45); border-top-color: #FFFFFF; box-sizing: border-box"></span></sc-if>{{signInLabel}}</button>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: #6B7280; text-align: center">
+<span>Demo account: <b style="color: #1F2937; font-weight: 600">admin@fleet.test</b> · <b style="color: #1F2937; font-weight: 600">admin123</b></span>
+<button type="button" onClick="{{fillDemo}}" style="border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 600; color: #2E75B6; cursor: pointer; padding: 6px 8px; min-height: 32px">Fill in demo account</button>
+</div>
+</form>
+</div>
+</sc-if>
+
+<sc-if value="{{isApp}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh">
+
+<aside class="nav" style="flex: 1 1 248px; background: #1F4E79; color: #FFFFFF; padding: 20px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #5B9BD5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+<div style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em">Fleet Console</span><span style="font-size: 12px; color: rgba(255,255,255,.65)">Vehicle Management</span></div>
+</div>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.6); padding: 0 12px 6px">Vehicles</span>
+<button type="button" onClick="{{goList}}" aria-current="{{navListCurrent}}" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: 10px; font: inherit; font-size: 14px; font-weight: {{navListWeight}}; text-align: left; cursor: pointer; background: {{navListBg}}; color: {{navListFg}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>All vehicles<span style="margin-left: auto; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.7)">{{total}}</span></button>
+<button type="button" onClick="{{goAdd}}" aria-current="{{navAddCurrent}}" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: 10px; font: inherit; font-size: 14px; font-weight: {{navAddWeight}}; text-align: left; cursor: pointer; background: {{navAddBg}}; color: {{navAddFg}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Register vehicle</button>
+</nav>
+<div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px; border-top: 1px solid rgba(255,255,255,.12)">
+<div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex: none">FA</div>
+<div style="display: flex; flex-direction: column; flex: 1; min-width: 0"><span style="font-size: 13px; font-weight: 600">Fleet Admin</span><span style="font-size: 12px; color: rgba(255,255,255,.65); overflow: hidden; text-overflow: ellipsis">admin@fleet.test</span></div>
+<button type="button" onClick="{{signOut}}" aria-label="Sign out" style="width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: rgba(255,255,255,.78); display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10"/></svg></button>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 40px 56px; box-sizing: border-box">
+
+<sc-if value="{{isList}}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.02em">Vehicles</h1>
+<span style="font-size: 14px; color: #6B7280">{{listSubtitle}}</span>
+</div>
+<button type="button" onClick="{{goAdd}}" class="btn-p" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Register vehicle</button>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; overflow: hidden">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid #F1F4F8">
+<div role="group" aria-label="Filter by status" style="display: inline-flex; padding: 3px; background: #EEF2F7; border-radius: 10px; gap: 2px">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+<button type="button" onClick="{{tab.pick}}" aria-pressed="{{tab.on}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; background: {{tab.bg}}; color: {{tab.fg}}; box-shadow: {{tab.shadow}}">{{tab.label}} <span style="font-weight: 500; color: #6B7280">{{tab.count}}</span></button>
+</sc-for>
+</div>
+<label style="position: relative; display: flex; align-items: center; flex: 0 1 320px">
+<span class="sr">Search vehicles</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 12px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+<input type="search" value="{{q}}" onInput="{{onQuery}}" placeholder="Registration no., make or model" style="width: 100%; height: 40px; box-sizing: border-box; padding: 0 12px 0 36px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 14px; color: #1F2937">
+</label>
+</div>
+
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 880px">
+<thead><tr style="background: #F8FAFC; text-align: left; color: #6B7280; font-size: 12px; text-transform: uppercase; letter-spacing: .04em">
+<th scope="col" style="padding: 10px 20px; font-weight: 600">Registration no.</th><th scope="col" style="padding: 10px 12px; font-weight: 600">Vehicle</th><th scope="col" style="padding: 10px 12px; font-weight: 600">Type</th><th scope="col" style="padding: 10px 12px; font-weight: 600">Fuel</th><th scope="col" style="padding: 10px 12px; font-weight: 600">Status</th><th scope="col" style="padding: 10px 12px; font-weight: 600">Updated</th><th scope="col" style="padding: 10px 20px; font-weight: 600; text-align: right"><span class="sr">Actions</span></th>
+</tr></thead>
+<tbody>
+<sc-if value="{{loading}}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{skeleton}}" as="sk" hint-placeholder-count="5">
+<tr style="border-top: 1px solid #F1F4F8">
+<td style="padding: 18px 20px"><div class="skel" style="height: 12px; width: 170px; border-radius: 6px; background: #E8EDF3"></div></td>
+<td style="padding: 18px 12px"><div class="skel" style="height: 12px; width: 140px; border-radius: 6px; background: #E8EDF3"></div></td>
+<td style="padding: 18px 12px"><div class="skel" style="height: 12px; width: 70px; border-radius: 6px; background: #E8EDF3"></div></td>
+<td style="padding: 18px 12px"><div class="skel" style="height: 12px; width: 50px; border-radius: 6px; background: #E8EDF3"></div></td>
+<td style="padding: 18px 12px"><div class="skel" style="height: 20px; width: 64px; border-radius: 999px; background: #E8EDF3"></div></td>
+<td style="padding: 18px 12px"><div class="skel" style="height: 12px; width: 60px; border-radius: 6px; background: #E8EDF3"></div></td>
+<td style="padding: 18px 20px"></td>
+</tr>
+</sc-for>
+</sc-if>
+<sc-for list="{{rows}}" as="v" hint-placeholder-count="6">
+<tr class="row" style="border-top: 1px solid #F1F4F8; background: {{v.flash}}">
+<td style="padding: 14px 20px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums">{{v.regNo}}</td>
+<td style="padding: 14px 12px"><div style="display: flex; flex-direction: column"><span style="font-weight: 500">{{v.make}} {{v.model}}</span><span style="font-size: 13px; color: #6B7280">{{v.yearLabel}}</span></div></td>
+<td style="padding: 14px 12px; color: #4B5563">{{v.type}}</td>
+<td style="padding: 14px 12px; color: #4B5563">{{v.fuel}}</td>
+<td style="padding: 14px 12px"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: {{v.bg}}; color: {{v.fg}}"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{v.dot}}"></span>{{v.statusLabel}}</span></td>
+<td style="padding: 14px 12px; color: #6B7280; white-space: nowrap">{{v.updatedLabel}}</td>
+<td style="padding: 14px 20px"><div style="display: flex; justify-content: flex-end; gap: 4px">
+<button type="button" class="icon-btn" onClick="{{v.edit}}" aria-label="Edit {{v.regNo}}" style="width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; display: flex; align-items: center; justify-content: center; color: #4B5563; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg></button>
+<button type="button" class="icon-del" onClick="{{v.ask}}" aria-label="Delete {{v.regNo}}" style="width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; display: flex; align-items: center; justify-content: center; color: #6B7280; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+</div></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<sc-if value="{{noResults}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 56px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<span style="font-size: 17px; font-weight: 600">No vehicles match “{{q}}”</span>
+<span style="font-size: 14px; color: #6B7280">Check the registration number or try another status.</span>
+<button type="button" onClick="{{clearSearch}}" class="btn-s" style="margin-top: 8px; height: 40px; padding: 0 16px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 14px; font-weight: 500; color: #1F2937; cursor: pointer">Clear search</button>
+</div>
+</sc-if>
+<sc-if value="{{noVehicles}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 64px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+<div style="width: 56px; height: 56px; border-radius: 16px; background: #EAF2FA; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F4E79" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l2-6h14l2 6v5h-3M3 13v5h3M3 13h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+<span style="font-size: 17px; font-weight: 600">No vehicles yet</span>
+<span style="font-size: 14px; color: #6B7280">Register your first vehicle to start tracking it.</span>
+<button type="button" onClick="{{goAdd}}" class="btn-p" style="margin-top: 6px; height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: #5B9BD5; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Register vehicle</button>
+</div>
+</sc-if>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid #F1F4F8; font-size: 13px; color: #6B7280">
+<span>{{footer}}</span>
+<span>Mock data · resets on reload</span>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{isForm}}" hint-placeholder-val="{{ false }}">
+<form onSubmit="{{save}}" novalidate="novalidate" style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<button type="button" onClick="{{goList}}" style="display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 32px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 14px; font-weight: 500; color: #2E75B6; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Vehicles</button>
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.02em">{{formTitle}}</h1>
+<p style="margin: 0; font-size: 15px; color: #6B7280">{{formSubtitle}}</p>
+</div>
+
+<sc-if value="{{summaryErr}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 12px; background: #FEF2F2; color: #991B1B; font-size: 14px; font-weight: 500; border: 1px solid #FECACA">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>{{summaryErr}}
+</div>
+</sc-if>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px"><h2 style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em">Registration</h2><span style="font-size: 13px; color: #6B7280">Each registration number can be used by one vehicle only.</span></div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Registration number *
+<span style="position: relative; display: flex; max-width: 420px">
+<input type="text" value="{{f.regNo}}" onInput="{{onReg}}" onBlur="{{blurReg}}" placeholder="DHA-METRO-GA 11-4582" autocapitalize="characters" spellcheck="false" aria-invalid="{{regInvalid}}" aria-describedby="reg-msg" style="flex: 1; height: 44px; box-sizing: border-box; padding: 0 40px 0 12px; border: 1px solid {{regBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 500; letter-spacing: .02em; color: #1F2937; background: #FFFFFF">
+<sc-if value="{{regOk}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 12px; top: 13px"><path d="M5 12l5 5 9-10"/></svg></sc-if>
+</span>
+<span id="reg-msg" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; font-weight: {{regMsgWeight}}; color: {{regMsgColor}}">{{regMsg}}
+<sc-if value="{{dupVehicle}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{openDup}}" style="border: 0; background: transparent; padding: 0; font: inherit; font-size: 13px; font-weight: 600; color: #2E75B6; cursor: pointer; text-decoration: underline">Open {{dupVehicle}}</button></sc-if>
+</span>
+</label>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E8ECF2; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px"><h2 style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em">Vehicle details</h2></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Vehicle type *
+<select value="{{f.type}}" onChange="{{onType}}" aria-invalid="{{typeInvalid}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{typeBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF"><option value="">Choose a type</option><option>Sedan</option><option>Microbus</option><option>Pickup</option><option>Truck</option><option>Bus</option><option>Motorcycle</option></select>
+<sc-if value="{{typeErr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 500; color: #DC2626">{{typeErr}}</span></sc-if>
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Make *
+<input type="text" value="{{f.make}}" onInput="{{onMake}}" onBlur="{{blurMake}}" placeholder="Toyota" aria-invalid="{{makeInvalid}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{makeBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF">
+<sc-if value="{{makeErr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 500; color: #DC2626">{{makeErr}}</span></sc-if>
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Model *
+<input type="text" value="{{f.model}}" onInput="{{onModel}}" onBlur="{{blurModel}}" placeholder="Hiace" aria-invalid="{{modelInvalid}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{modelBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF">
+<sc-if value="{{modelErr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 500; color: #DC2626">{{modelErr}}</span></sc-if>
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Year
+<input type="text" inputmode="numeric" maxlength="4" value="{{f.year}}" onInput="{{onYear}}" onBlur="{{blurYear}}" placeholder="2021" aria-invalid="{{yearInvalid}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{yearBorder}}; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF">
+<sc-if value="{{yearErr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 500; color: #DC2626">{{yearErr}}</span></sc-if>
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #374151">Chassis number
+<input type="text" value="{{f.chassisNo}}" onInput="{{onChassis}}" placeholder="17 characters" spellcheck="false" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D5DCE5; border-radius: 10px; font: inherit; font-size: 15px; font-weight: 400; color: #1F2937; background: #FFFFFF">
+</label>
+</div>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 13px; font-weight: 600; color: #374151; padding: 0; margin-bottom: 8px">Fuel</legend>
+<div role="group" style="display: inline-flex; align-self: flex-start; padding: 3px; background: #EEF2F7; border-radius: 10px; gap: 2px; flex-wrap: wrap">
+<sc-for list="{{fuels}}" as="fu" hint-placeholder-count="4">
+<button type="button" onClick="{{fu.pick}}" aria-pressed="{{fu.on}}" style="height: 36px; padding: 0 18px; border: 0; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; background: {{fu.bg}}; color: {{fu.fg}}; box-shadow: {{fu.shadow}}">{{fu.label}}</button>
+</sc-for>
+</div>
+</fieldset>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 16px; border-top: 1px solid #F1F4F8">
+<div style="display: flex; flex-direction: column; gap: 2px"><span id="active-label" style="font-size: 15px; font-weight: 600">Active</span><span style="font-size: 13px; color: #6B7280">Inactive vehicles stay on record but can't be assigned.</span></div>
+<button type="button" role="switch" aria-checked="{{activeStr}}" aria-labelledby="active-label" onClick="{{toggleActive}}" style="width: 51px; height: 31px; border: 0; border-radius: 999px; padding: 2px; background: {{switchBg}}; cursor: pointer; display: flex; justify-content: {{switchJustify}}; flex: none"><span style="width: 27px; height: 27px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,.18)"></span></button>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div>
+<sc-if value="{{isEdit}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{askDeleteEditing}}" style="height: 44px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; font: inherit; font-size: 15px; font-weight: 600; color: #DC2626; cursor: pointer">Delete vehicle</button></sc-if>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" onClick="{{goList}}" class="btn-s" style="height: 44px; padding: 0 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 15px; font-weight: 500; color: #1F2937; cursor: pointer">Cancel</button>
+<button type="submit" class="btn-p" disabled="{{saveDisabled}}" style="height: 44px; padding: 0 22px; border: 0; border-radius: 10px; background: {{saveBg}}; color: {{saveFg}}; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px">
+<sc-if value="{{saving}}" hint-placeholder-val="{{ false }}"><span class="spin" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.45); border-top-color: #FFFFFF; box-sizing: border-box"></span></sc-if>{{saveLabel}}</button>
+</div>
+</div>
+</form>
+</sc-if>
+
+</main>
+</div>
+</sc-if>
+
+<sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #1F2937; color: #FFFFFF; border-radius: 12px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 24px rgba(16,24,40,.18); white-space: nowrap">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>{{toast}}
+<sc-if value="{{canUndo}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{undo}}" style="margin-left: 6px; border: 0; background: transparent; color: #9CC3E8; font: inherit; font-weight: 600; cursor: pointer; padding: 4px 6px">Undo</button></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{confirming}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; background: rgba(15,23,42,.36); display: flex; align-items: flex-start; justify-content: center; padding-top: 180px">
+<div role="alertdialog" aria-modal="true" aria-labelledby="del-title" aria-describedby="del-desc" style="width: 400px; max-width: calc(100% - 32px); background: #FFFFFF; border-radius: 16px; padding: 24px; box-shadow: 0 24px 48px rgba(16,24,40,.22); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #FEE2E2; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></div>
+<h2 id="del-title" style="margin: 8px 0 0; font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Delete {{pendingReg}}?</h2>
+<p id="del-desc" style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5563">{{pendingDesc}} will be removed from your vehicle list.</p>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" onClick="{{cancelDelete}}" style="flex: 1; height: 44px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 15px; font-weight: 600; color: #1F2937; cursor: pointer">Cancel</button>
+<button type="button" onClick="{{confirmDelete}}" style="flex: 1; height: 44px; border: 0; border-radius: 10px; background: #DC2626; font: inherit; font-size: 15px; font-weight: 600; color: #FFFFFF; cursor: pointer">Delete</button>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["login","list","register","edit"],"default":"edit","section":"Prototype"},"$preview":{"width":1440,"height":1100}}'>
+const MOCK_VEHICLES = [
+  { id: 101, regNo: 'DHA-METRO-GA 11-4582', type: 'Microbus', make: 'Toyota', model: 'Hiace', year: '2021', fuel: 'Diesel', chassisNo: 'JTFSS22P1M0193746', active: true, updatedAt: '2026-11-19' },
+  { id: 102, regNo: 'CTG-METRO-TA 12-0931', type: 'Truck', make: 'Isuzu', model: 'NPR', year: '2019', fuel: 'Diesel', chassisNo: 'JALC4B16XK7001842', active: true, updatedAt: '2026-11-17' },
+  { id: 103, regNo: 'DHA-METRO-KHA 14-2210', type: 'Sedan', make: 'Toyota', model: 'Axio', year: '2020', fuel: 'CNG', chassisNo: 'NZE1610032876', active: true, updatedAt: '2026-11-12' },
+  { id: 104, regNo: 'DHA-METRO-GHA 19-7710', type: 'Pickup', make: 'Mitsubishi', model: 'L200', year: '2022', fuel: 'Diesel', chassisNo: 'MMBJNKL30NH018233', active: true, updatedAt: '2026-11-08' },
+  { id: 105, regNo: 'DHA-METRO-CHA 15-3307', type: 'Truck', make: 'Tata', model: 'Ultra 1014', year: '2018', fuel: 'Diesel', chassisNo: 'MAT448101J3C21907', active: false, updatedAt: '2026-10-30' },
+  { id: 106, regNo: 'SYL-GA 11-0458', type: 'Microbus', make: 'Toyota', model: 'Noah', year: '2017', fuel: 'Petrol', chassisNo: 'ZRR800215873', active: true, updatedAt: '2026-10-21' },
+  { id: 107, regNo: 'DHA-METRO-HA 21-6612', type: 'Motorcycle', make: 'Honda', model: 'CB Hornet 160R', year: '2023', fuel: 'Petrol', chassisNo: 'ME4KC3110P8004417', active: true, updatedAt: '2026-10-14' },
+  { id: 108, regNo: 'DHA-METRO-BA 11-2087', type: 'Bus', make: 'Hino', model: 'AK1J', year: '2016', fuel: 'Diesel', chassisNo: 'AK1JRKA12345', active: false, updatedAt: '2026-09-28' }
+];
+const EMPTY_FORM = { regNo: '', type: '', make: '', model: '', year: '', fuel: 'Diesel', chassisNo: '', active: true };
+const norm = s => (s || '').toUpperCase().replace(/[\s-]/g, '');
+const tidy = s => (s || '').toUpperCase().replace(/\s+/g, ' ').trim();
+const REG_FORMAT = /^[A-Z]{3}(-METRO)?-[A-Z]{1,3} \d{2}-\d{4}$/;
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtDate = iso => { const [y, m, d] = iso.split('-'); return Number(d) + ' ' + MONTHS[Number(m) - 1] + (y === '2026' ? '' : ' ' + y); };
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const start = props.start || 'edit';
+    const base = {
+      vehicles: MOCK_VEHICLES.map(v => ({ ...v })), nextId: 109,
+      email: '', password: '', showPw: false, loginTried: false, loginErr: '', signingIn: false,
+      q: '', filter: 'all', loading: false, flashId: null,
+      mode: 'add', editingId: null, f: { ...EMPTY_FORM }, original: null, touched: {}, tried: false, saving: false, serverErr: '',
+      pending: null, toast: '', lastDeleted: null
+    };
+    if (start === 'login') base.screen = 'login';
+    else if (start === 'list') base.screen = 'list';
+    else if (start === 'register') base.screen = 'form';
+    else { const v = base.vehicles[0]; Object.assign(base, { screen: 'form', mode: 'edit', editingId: v.id, f: this.toForm(v), original: this.toForm(v) }); }
+    this.state = base;
+  }
+  componentWillUnmount() { clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.t3); }
+  toForm(v) { return { regNo: v.regNo, type: v.type, make: v.make, model: v.model, year: v.year, fuel: v.fuel, chassisNo: v.chassisNo, active: v.active }; }
+  showToast(text, undoable) {
+    clearTimeout(this.t3);
+    this.setState({ toast: text, canUndo: !!undoable });
+    this.t3 = setTimeout(() => this.setState({ toast: '', lastDeleted: null, flashId: null }), 5000);
+  }
+  openList(extra) {
+    this.setState({ screen: 'list', pending: null, ...extra });
+  }
+  openAdd() { this.setState({ screen: 'form', mode: 'add', editingId: null, f: { ...EMPTY_FORM }, original: null, touched: {}, tried: false, serverErr: '', saving: false }); }
+  openEdit(v) { this.setState({ screen: 'form', mode: 'edit', editingId: v.id, f: this.toForm(v), original: this.toForm(v), touched: {}, tried: false, serverErr: '', saving: false }); }
+  validate(s) {
+    const f = s.f, e = {};
+    const reg = tidy(f.regNo);
+    const dup = reg ? s.vehicles.find(v => norm(v.regNo) === norm(reg) && v.id !== s.editingId) : null;
+    if (!reg) e.regNo = 'Enter the registration number.';
+    else if (dup) e.regNo = dup.regNo + ' is already registered to ' + dup.make + ' ' + dup.model + '.';
+    else if (!REG_FORMAT.test(reg)) e.regNo = 'Use the BRTA format, e.g. DHA-METRO-GA 11-4582.';
+    if (!f.type) e.type = 'Choose a vehicle type.';
+    if (!f.make.trim()) e.make = 'Enter the make.';
+    if (!f.model.trim()) e.model = 'Enter the model.';
+    if (f.year && !(/^\d{4}$/.test(f.year) && +f.year >= 1980 && +f.year <= 2027)) e.year = 'Enter a year between 1980 and 2027.';
+    return { e, dup, reg };
+  }
+  renderVals() {
+    const s = this.state;
+    const setF = (k, v) => this.setState({ f: { ...this.state.f, [k]: v }, serverErr: '' });
+    const touch = k => this.setState({ touched: { ...this.state.touched, [k]: true } });
+    const field = (k, e) => { const show = (s.tried || s.touched[k]) && e[k]; return { err: show ? e[k] : '', invalid: show ? 'true' : 'false', border: show ? '#DC2626' : '#D5DCE5' }; };
+
+    // login
+    const emailErr = s.loginTried && !s.email.trim() ? 'Enter your email.' : s.loginTried && !/^\S+@\S+\.\S+$/.test(s.email.trim()) ? 'Enter a valid email address.' : '';
+    const pwErr = s.loginTried && !s.password ? 'Enter your password.' : '';
+
+    // list
+    const statusLook = a => a ? { statusLabel: 'Active', bg: '#DCFCE7', fg: '#166534', dot: '#16A34A' } : { statusLabel: 'Inactive', bg: '#F1F5F9', fg: '#475569', dot: '#94A3B8' };
+    const q = s.q.trim();
+    const nq = norm(q);
+    const visible = s.vehicles
+      .filter(v => s.filter === 'all' || (s.filter === 'active') === v.active)
+      .filter(v => !q || norm(v.regNo).includes(nq) || (v.make + ' ' + v.model).toLowerCase().includes(q.toLowerCase()))
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt) || b.id - a.id);
+    const rows = s.loading ? [] : visible.map(v => ({
+      ...v, ...statusLook(v.active), yearLabel: v.year || '—', updatedLabel: fmtDate(v.updatedAt),
+      flash: v.id === s.flashId ? '#F0F7FD' : 'transparent',
+      edit: () => this.openEdit(v), ask: () => this.setState({ pending: v })
+    }));
+    const activeCount = s.vehicles.filter(v => v.active).length;
+    const tabs = [['all', 'All', s.vehicles.length], ['active', 'Active', activeCount], ['inactive', 'Inactive', s.vehicles.length - activeCount]].map(([k, label, count]) => {
+      const on = s.filter === k;
+      return { label, count, on: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#1F2937' : '#4B5563', shadow: on ? '0 1px 2px rgba(16,24,40,.12)' : 'none', pick: () => this.setState({ filter: k }) };
+    });
+
+    // form
+    const { e, dup, reg } = this.validate(s);
+    const regF = field('regNo', e);
+    const regShowDup = !!dup;
+    const regInvalidNow = regF.err || regShowDup;
+    const regOk = !e.regNo && REG_FORMAT.test(reg);
+    const regMsg = regShowDup ? e.regNo : regF.err ? regF.err : regOk ? 'Available — no other vehicle uses this number.' : 'As printed on the BRTA registration certificate.';
+    const typeF = field('type', e), makeF = field('make', e), modelF = field('model', e), yearF = field('year', e);
+    const nErr = Object.keys(e).length;
+    const dirty = s.mode === 'add' ? JSON.stringify(s.f) !== JSON.stringify(EMPTY_FORM) : JSON.stringify(s.f) !== JSON.stringify(s.original);
+    const saveDisabled = s.saving || (s.mode === 'edit' && !dirty);
+    const editing = s.vehicles.find(v => v.id === s.editingId);
+    const fuels = ['Diesel', 'Petrol', 'CNG', 'Electric'].map(fl => {
+      const on = s.f.fuel === fl;
+      return { label: fl, on: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#1F2937' : '#4B5563', shadow: on ? '0 1px 2px rgba(16,24,40,.12)' : 'none', pick: () => setF('fuel', fl) };
+    });
+    const nav = on => ({ bg: on ? 'rgba(255,255,255,.14)' : 'transparent', fg: on ? '#FFFFFF' : 'rgba(255,255,255,.78)', weight: on ? 600 : 500, cur: on ? 'page' : 'false' });
+    const navList = nav(s.screen === 'list' || s.mode === 'edit'), navAdd = nav(s.screen === 'form' && s.mode === 'add');
+
+    return {
+      isLogin: s.screen === 'login', isApp: s.screen !== 'login', isList: s.screen === 'list', isForm: s.screen === 'form',
+      // login
+      email: s.email, password: s.password, pwType: s.showPw ? 'text' : 'password', pwToggleLabel: s.showPw ? 'Hide' : 'Show',
+      emailErr, emailInvalid: emailErr ? 'true' : 'false', emailBorder: emailErr ? '#DC2626' : '#D5DCE5',
+      pwErr, pwInvalid: pwErr ? 'true' : 'false', pwBorder: pwErr ? '#DC2626' : '#D5DCE5',
+      loginErr: s.loginErr, signingIn: s.signingIn, signInLabel: s.signingIn ? 'Signing in…' : 'Sign in',
+      onEmail: ev => this.setState({ email: ev.target.value, loginErr: '' }),
+      onPassword: ev => this.setState({ password: ev.target.value, loginErr: '' }),
+      togglePw: () => this.setState({ showPw: !s.showPw }),
+      fillDemo: () => this.setState({ email: 'admin@fleet.test', password: 'admin123', loginErr: '', loginTried: false }),
+      signIn: ev => {
+        ev.preventDefault();
+        if (!s.email.trim() || !/^\S+@\S+\.\S+$/.test(s.email.trim()) || !s.password) return this.setState({ loginTried: true });
+        this.setState({ signingIn: true, loginTried: false, loginErr: '' });
+        this.t1 = setTimeout(() => {
+          if (s.email.trim().toLowerCase() === 'admin@fleet.test' && s.password === 'admin123') {
+            this.setState({ signingIn: false, screen: 'list', loading: true, password: '' });
+            this.t2 = setTimeout(() => this.setState({ loading: false }), 700);
+          } else this.setState({ signingIn: false, loginErr: 'Email or password is incorrect.' });
+        }, 600);
+      },
+      // shell
+      total: s.vehicles.length,
+      navListBg: navList.bg, navListFg: navList.fg, navListWeight: navList.weight, navListCurrent: navList.cur,
+      navAddBg: navAdd.bg, navAddFg: navAdd.fg, navAddWeight: navAdd.weight, navAddCurrent: navAdd.cur,
+      goList: () => this.openList(), goAdd: () => this.openAdd(),
+      signOut: () => this.setState({ screen: 'login', email: '', password: '', loginTried: false, loginErr: '', toast: '', pending: null }),
+      // list
+      tabs, rows, q: s.q, loading: s.loading, skeleton: [1, 2, 3, 4, 5],
+      listSubtitle: s.vehicles.length + ' registered · ' + activeCount + ' active',
+      noResults: !s.loading && s.vehicles.length > 0 && visible.length === 0,
+      noVehicles: !s.loading && s.vehicles.length === 0,
+      footer: s.loading ? 'Loading vehicles…' : 'Showing ' + visible.length + ' of ' + s.vehicles.length,
+      onQuery: ev => this.setState({ q: ev.target.value }),
+      clearSearch: () => this.setState({ q: '', filter: 'all' }),
+      // form
+      f: s.f, isEdit: s.mode === 'edit',
+      formTitle: s.mode === 'edit' ? 'Edit vehicle' : 'Register vehicle',
+      formSubtitle: s.mode === 'edit' ? (editing ? editing.make + ' ' + editing.model + ' · last updated ' + fmtDate(editing.updatedAt) : '') : 'Fields marked * are required.',
+      summaryErr: s.serverErr ? s.serverErr : s.tried && nErr ? (nErr === 1 ? '1 field needs attention.' : nErr + ' fields need attention.') : '',
+      regInvalid: regInvalidNow ? 'true' : 'false', regBorder: regInvalidNow ? '#DC2626' : regOk ? '#16A34A' : '#D5DCE5',
+      regOk, regMsg, regMsgColor: regInvalidNow ? '#DC2626' : regOk ? '#166534' : '#6B7280', regMsgWeight: regInvalidNow || regOk ? 500 : 400,
+      dupVehicle: dup ? dup.regNo : '', openDup: () => dup && this.openEdit(dup),
+      typeErr: typeF.err, typeInvalid: typeF.invalid, typeBorder: typeF.border,
+      makeErr: makeF.err, makeInvalid: makeF.invalid, makeBorder: makeF.border,
+      modelErr: modelF.err, modelInvalid: modelF.invalid, modelBorder: modelF.border,
+      yearErr: yearF.err, yearInvalid: yearF.invalid, yearBorder: yearF.border,
+      fuels, activeStr: s.f.active ? 'true' : 'false', switchBg: s.f.active ? '#16A34A' : '#CBD5E1', switchJustify: s.f.active ? 'flex-end' : 'flex-start',
+      onReg: ev => setF('regNo', ev.target.value.toUpperCase()), blurReg: () => { touch('regNo'); if (tidy(this.state.f.regNo) !== this.state.f.regNo) setF('regNo', tidy(this.state.f.regNo)); },
+      onType: ev => { setF('type', ev.target.value); touch('type'); },
+      onMake: ev => setF('make', ev.target.value), blurMake: () => touch('make'),
+      onModel: ev => setF('model', ev.target.value), blurModel: () => touch('model'),
+      onYear: ev => setF('year', ev.target.value.replace(/\D/g, '')), blurYear: () => touch('year'),
+      onChassis: ev => setF('chassisNo', ev.target.value.toUpperCase()),
+      toggleActive: () => setF('active', !s.f.active),
+      saving: s.saving, saveDisabled,
+      saveBg: saveDisabled && !s.saving ? '#E2E8F0' : '#5B9BD5', saveFg: saveDisabled && !s.saving ? '#94A3B8' : '#FFFFFF',
+      saveLabel: s.saving ? 'Saving…' : s.mode === 'edit' ? 'Save changes' : 'Register vehicle',
+      askDeleteEditing: () => editing && this.setState({ pending: editing }),
+      save: ev => {
+        ev.preventDefault();
+        if (nErr) return this.setState({ tried: true });
+        this.setState({ saving: true, serverErr: '' });
+        this.t1 = setTimeout(() => {
+          const cur = this.state;
+          const again = this.validate(cur);
+          if (again.dup) return this.setState({ saving: false, tried: true, serverErr: 'Someone registered ' + again.dup.regNo + ' while you were editing. Use a different number.' });
+          const record = { ...cur.f, regNo: tidy(cur.f.regNo), make: cur.f.make.trim(), model: cur.f.model.trim(), updatedAt: '2026-11-21' };
+          if (cur.mode === 'add') {
+            const id = cur.nextId;
+            this.setState({ vehicles: [...cur.vehicles, { id, ...record }], nextId: id + 1, saving: false, screen: 'list', flashId: id, q: '', filter: 'all' });
+            this.showToast(record.regNo + ' registered');
+          } else {
+            this.setState({ vehicles: cur.vehicles.map(v => v.id === cur.editingId ? { ...v, ...record } : v), saving: false, screen: 'list', flashId: cur.editingId });
+            this.showToast('Changes to ' + record.regNo + ' saved');
+          }
+        }, 650);
+      },
+      // delete
+      confirming: !!s.pending, pendingReg: s.pending ? s.pending.regNo : '', pendingDesc: s.pending ? s.pending.make + ' ' + s.pending.model : '',
+      cancelDelete: () => this.setState({ pending: null }),
+      confirmDelete: () => {
+        const v = s.pending;
+        this.setState({ vehicles: s.vehicles.filter(x => x.id !== v.id), lastDeleted: v, pending: null, screen: 'list' });
+        this.showToast(v.regNo + ' deleted', true);
+      },
+      toast: s.toast, canUndo: !!s.canUndo && !!s.lastDeleted,
+      undo: () => { const v = this.state.lastDeleted; if (!v) return; this.setState({ vehicles: [...this.state.vehicles, v], lastDeleted: null, flashId: v.id }); this.showToast(v.regNo + ' restored'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

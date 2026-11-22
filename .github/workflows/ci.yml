@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Formatting (warning only until the codebase is formatted)
+        run: |
+          dart format --output=none --set-exit-if-changed . \
+            || echo "::warning::Some files are not formatted. Run dart format . and commit."
+      - run: flutter analyze --no-fatal-infos
+      - name: Test the app and every workspace package
+        run: |
+          for p in . packages/*; do
+            if [ -d "$p/test" ]; then (cd "$p" && flutter test); fi
+          done
+      - run: flutter build web --release --dart-define=VMS_API_BASE_URL=/api

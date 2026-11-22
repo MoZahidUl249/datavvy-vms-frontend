@@ -1,0 +1,24 @@
+name: feature_settings
+description: "Workspace settings: catalogs, list columns, dashboard cards."
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.1.0
+  go_router: '>=16.0.0 <18.0.0'
+  vms_core:
+    path: ../vms_core
+  vms_design_system:
+    path: ../vms_design_system
+  vms_catalog:
+    path: ../vms_catalog
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
