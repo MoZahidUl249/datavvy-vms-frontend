@@ -240,16 +240,15 @@ class _KpiCard extends StatelessWidget {
 }
 
 class _VehicleRow extends StatelessWidget {
-  const _VehicleRow({required this.vehicle, required this.onTap, this.trailing, this.subtitle});
+  const _VehicleRow({required this.vehicle, required this.onTap, this.trailing});
 
   final DashboardVehicle vehicle;
   final VoidCallback onTap;
   final Widget? trailing;
-  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
-    final line = subtitle ??
+    final line =
         [vehicle.company, '${vehicle.brand} ${vehicle.model}'.trim()].where((e) => e.isNotEmpty).join(' · ');
     return InkWell(
       onTap: onTap,
