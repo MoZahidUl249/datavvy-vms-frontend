@@ -4,12 +4,14 @@ The web app for **Datavvy VMS**, a vehicle management system for a company fleet
 
 **Stack:** Flutter (Dart ≥ 3.14), web only · `material_ui` · `go_router` · `http` · MVVM with `ChangeNotifier`
 
+▶️ **[Watch the 2-minute feature demo](https://mozahidul249.github.io/datavvy-vms-frontend/)** · **[Try the live app](https://datavvy-vms.netlify.app)**
+
 **API:** [datavvy-vms-backend](https://github.com/MoZahidUl249/datavvy-vms-backend) (Spring Boot + MySQL), which also owns the API contract.
 
 | | |
 |---|---|
 | Hosting | Netlify (free) · API on Render · database on TiDB Cloud |
-| Demo video | [`docs/vms-demo.mp4`](docs/vms-demo.mp4) (1 min) |
+| Demo video | ▶️ **[Watch the feature demo](https://mozahidul249.github.io/datavvy-vms-frontend/)** (2 min, plays in the browser) · older clip: [`docs/vms-demo.mp4`](docs/vms-demo.mp4) |
 | Demo logins | `admin@datavvy.com / Admin@12345` · `manager@datavvy.com / Manager@12345` · `viewer@datavvy.com / Viewer@12345` |
 
 ---
