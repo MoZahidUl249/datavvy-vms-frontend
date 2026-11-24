@@ -22,3 +22,14 @@ bool asBool(Object? value, [bool fallback = false]) =>
 
 DateTime? asDateTime(Object? value) =>
     value is String ? DateTime.tryParse(value)?.toLocal() : null;
+
+/// Numbers that may arrive as int or decimal (money).
+double asDouble(Object? value, [double fallback = 0]) =>
+    value is num ? value.toDouble() : (value is String ? double.tryParse(value) ?? fallback : fallback);
+
+/// Calendar day from `YYYY-MM-DD` (no time-zone shift), or null.
+DateTime? asDate(Object? value) {
+  if (value is! String || value.length < 10) return null;
+  final d = DateTime.tryParse(value.substring(0, 10));
+  return d == null ? null : DateTime(d.year, d.month, d.day);
+}

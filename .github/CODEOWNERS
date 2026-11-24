@@ -20,6 +20,10 @@
 /packages/feature_settings/       @datavvy/fleet-settings-team
 /packages/feature_vehicles/       @datavvy/fleet-core-team
 /packages/feature_dashboard/      @datavvy/insights-team
+/packages/vms_fleet_records/      @datavvy/fleet-compliance-team @datavvy/fleet-operations-team
+/packages/feature_documents/      @datavvy/fleet-compliance-team
+/packages/feature_drivers/        @datavvy/fleet-operations-team
+/packages/feature_maintenance/    @datavvy/fleet-operations-team
 
 # Design source
 /layout/                          @datavvy/design-system-team

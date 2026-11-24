@@ -90,7 +90,7 @@ class _VehicleFormScreenState extends State<VehicleFormScreen> {
     super.dispose();
   }
 
-  void _cancel() => context.go(AppRoutes.vehicles);
+  void _cancel() => context.go(_vm.isEdit && _vm.vehicleId != null ? AppRoutes.vehicleDetail(_vm.vehicleId!) : AppRoutes.vehicles);
 
   /// Enter moves to [next]; Ctrl/⌘+Enter saves from any text field.
   void _saveOr(VehicleField next) {
@@ -112,7 +112,7 @@ class _VehicleFormScreenState extends State<VehicleFormScreen> {
       return;
     }
     showVmsToast(context, _vm.isEdit ? 'Changes saved.' : '${saved.vehicleNumber} registered.');
-    context.go(AppRoutes.vehiclesWhere(saved: saved.id));
+    context.go(_vm.isEdit ? AppRoutes.vehicleDetail(saved.id) : AppRoutes.vehiclesWhere(saved: saved.id));
   }
 
   Future<void> _delete() async {
@@ -169,7 +169,13 @@ class _VehicleFormScreenState extends State<VehicleFormScreen> {
           final title = _vm.isEdit ? (_vm.original?.vehicleNumber ?? 'Edit vehicle') : 'Register vehicle';
           return VmsPage(
             maxWidth: VmsSize.contentForm,
-            crumbs: [Crumb('Vehicles', onTap: _cancel), Crumb(_vm.isEdit ? title : 'Register vehicle')],
+            crumbs: _vm.isEdit
+                ? [
+                    Crumb('Vehicles', onTap: () => context.go(AppRoutes.vehicles)),
+                    Crumb(title, onTap: _cancel),
+                    const Crumb('Edit'),
+                  ]
+                : [Crumb('Vehicles', onTap: _cancel), const Crumb('Register vehicle')],
             title: _vm.isEdit ? 'Edit vehicle' : 'Register vehicle',
             subtitle: _vm.isEdit
                 ? 'Update the details of $title.'
@@ -291,7 +297,7 @@ class _VehicleFormScreenState extends State<VehicleFormScreen> {
           error: _vm.errorFor(VehicleField.vehicleNumber),
           errorAction: dup != null && !dup.available && dup.existingId != null
               ? TextButton(
-                  onPressed: () => context.go(AppRoutes.vehicleEdit(dup.existingId!)),
+                  onPressed: () => context.go(AppRoutes.vehicleDetail(dup.existingId!)),
                   child: const Text('Open that vehicle'),
                 )
               : null,

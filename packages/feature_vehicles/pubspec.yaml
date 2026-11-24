@@ -1,5 +1,5 @@
 name: feature_vehicles
-description: "Vehicle list, filters, register and edit."
+description: "Vehicle list, filters, register, edit and the vehicle page (driver, documents, maintenance)."
 publish_to: none
 version: 0.1.0
 resolution: workspace
@@ -18,6 +18,8 @@ dependencies:
     path: ../vms_design_system
   vms_catalog:
     path: ../vms_catalog
+  vms_fleet_records:
+    path: ../vms_fleet_records
 
 dev_dependencies:
   flutter_test:

@@ -12,6 +12,7 @@ export 'src/auth/auth_session.dart';
 export 'src/auth/session_store.dart' show SessionStore, MemorySessionStore;
 export 'src/config/app_config.dart';
 export 'src/feature/feature_module.dart';
+export 'src/files/browser_files.dart';
 export 'src/format/formatters.dart';
 export 'src/preferences/ui_preferences.dart';
 export 'src/routing/app_routes.dart';

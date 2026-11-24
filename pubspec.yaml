@@ -13,9 +13,13 @@ workspace:
   - packages/vms_core
   - packages/vms_design_system
   - packages/vms_catalog
+  - packages/vms_fleet_records
   - packages/feature_auth
   - packages/feature_dashboard
   - packages/feature_vehicles
+  - packages/feature_drivers
+  - packages/feature_documents
+  - packages/feature_maintenance
   - packages/feature_settings
 
 dependencies:
@@ -38,6 +42,14 @@ dependencies:
     path: packages/feature_dashboard
   feature_vehicles:
     path: packages/feature_vehicles
+  vms_fleet_records:
+    path: packages/vms_fleet_records
+  feature_drivers:
+    path: packages/feature_drivers
+  feature_documents:
+    path: packages/feature_documents
+  feature_maintenance:
+    path: packages/feature_maintenance
   feature_settings:
     path: packages/feature_settings
 

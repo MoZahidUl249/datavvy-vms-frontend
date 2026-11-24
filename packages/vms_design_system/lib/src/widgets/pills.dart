@@ -2,7 +2,8 @@ import 'package:material_ui/material_ui.dart';
 
 import '../tokens.dart';
 
-enum StatusTone { success, neutral, warning }
+/// `danger` is for things that are already wrong (an expired document or licence).
+enum StatusTone { success, neutral, warning, danger }
 
 /// Status is always colour + word, never colour alone.
 class StatusPill extends StatelessWidget {
@@ -17,6 +18,7 @@ class StatusPill extends StatelessWidget {
       StatusTone.success => (VmsColors.successBg, VmsColors.success, VmsColors.successText),
       StatusTone.warning => (VmsColors.warningBg, VmsColors.warning, VmsColors.warningText),
       StatusTone.neutral => (VmsColors.track, VmsColors.textMeta, VmsColors.textSecondary),
+      StatusTone.danger => (VmsColors.dangerBg, VmsColors.danger, VmsColors.dangerText),
     };
     return Container(
       height: 24,

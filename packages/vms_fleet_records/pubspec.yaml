@@ -1,0 +1,21 @@
+name: vms_fleet_records
+description: "Fleet records shared by features: documents, maintenance, drivers and assignments — models, repositories and the small widgets every screen shows them with."
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.1.0
+  vms_core:
+    path: ../vms_core
+  vms_design_system:
+    path: ../vms_design_system
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
