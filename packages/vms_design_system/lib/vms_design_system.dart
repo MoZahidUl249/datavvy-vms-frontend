@@ -7,6 +7,7 @@ library;
 export 'src/theme.dart';
 export 'src/tokens.dart';
 export 'src/widgets/buttons.dart';
+export 'src/widgets/date_field.dart';
 export 'src/widgets/day_picker.dart';
 export 'src/widgets/dialogs.dart';
 export 'src/widgets/feedback.dart';

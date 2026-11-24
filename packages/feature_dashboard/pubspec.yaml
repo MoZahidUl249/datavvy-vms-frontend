@@ -1,5 +1,5 @@
 name: feature_dashboard
-description: "Fleet dashboard feature."
+description: "Fleet dashboard: vehicles, document expiry, maintenance cost and drivers at a glance."
 publish_to: none
 version: 0.1.0
 resolution: workspace
@@ -16,6 +16,8 @@ dependencies:
     path: ../vms_core
   vms_design_system:
     path: ../vms_design_system
+  vms_fleet_records:
+    path: ../vms_fleet_records
 
 dev_dependencies:
   flutter_test:

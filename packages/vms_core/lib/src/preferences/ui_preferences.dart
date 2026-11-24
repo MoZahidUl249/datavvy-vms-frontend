@@ -19,7 +19,11 @@ enum DashboardCard {
   byType('Vehicles by type'),
   byBrand('Vehicles by brand'),
   recentlyUpdated('Recently updated'),
-  inMaintenance('In maintenance');
+  inMaintenance('In maintenance'),
+  documentAlerts('Documents needing attention'),
+  maintenanceCost('Maintenance cost by month'),
+  recentMaintenance('Recent maintenance'),
+  drivers('Drivers');
 
   const DashboardCard(this.label);
   final String label;

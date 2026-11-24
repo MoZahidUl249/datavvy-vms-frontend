@@ -3,27 +3,40 @@ import 'package:material_ui/material_ui.dart';
 import 'package:vms_catalog/vms_catalog.dart';
 import 'package:vms_core/vms_core.dart';
 import 'package:vms_design_system/vms_design_system.dart';
+import 'package:vms_fleet_records/vms_fleet_records.dart';
 
 import 'data/vehicle_models.dart';
 import 'data/vehicle_repository.dart';
+import 'ui/detail/vehicle_detail_screen.dart';
+import 'ui/detail/vehicle_detail_view_model.dart';
 import 'ui/form/vehicle_form_screen.dart';
 import 'ui/form/vehicle_form_view_model.dart';
 import 'ui/list/vehicle_list_screen.dart';
 import 'ui/list/vehicle_list_view_model.dart';
 
-/// `/vehicles`, `/vehicles/new`, `/vehicles/:id` and the Fleet sidebar group.
+/// `/vehicles`, `/vehicles/new`, `/vehicles/:id` (vehicle page),
+/// `/vehicles/:id/edit` and the Fleet sidebar group.
 class VehiclesFeature extends FeatureModule {
   VehiclesFeature({
     required ApiClient api,
     required CatalogRepository catalog,
     required UiPreferences preferences,
     required AuthSession session,
+    required DocumentRepository documents,
+    required MaintenanceRepository maintenance,
+    required DriverRepository drivers,
   })  : repository = VehicleRepository(api),
         _catalog = catalog,
         _preferences = preferences,
-        _session = session;
+        _session = session,
+        _documents = documents,
+        _maintenance = maintenance,
+        _drivers = drivers;
 
   final VehicleRepository repository;
+  final DocumentRepository _documents;
+  final MaintenanceRepository _maintenance;
+  final DriverRepository _drivers;
   final CatalogRepository _catalog;
   final UiPreferences _preferences;
   final AuthSession _session;
@@ -68,7 +81,31 @@ class VehiclesFeature extends FeatureModule {
           pageBuilder: (context, state) {
             final id = int.tryParse(state.pathParameters['id'] ?? '');
             return NoTransitionPage(
-              key: ValueKey('vehicle-$id'),
+              key: ValueKey('vehicle-$id-${state.uri.query}'),
+              child: id == null
+                  ? const _NotFound()
+                  : VehicleDetailScreen(
+                      createViewModel: () => VehicleDetailViewModel(
+                        vehicleId: id,
+                        vehicles: repository,
+                        documents: _documents,
+                        maintenance: _maintenance,
+                        drivers: _drivers,
+                      ),
+                      canManage: _canManage,
+                      initialSection: state.uri.queryParameters['section'],
+                    ),
+            );
+          },
+        ),
+        GoRoute(
+          path: '${AppRoutes.vehicles}/:id/edit',
+          redirect: (context, state) =>
+              _canManage ? null : AppRoutes.vehicleDetail(int.tryParse(state.pathParameters['id'] ?? '') ?? 0),
+          pageBuilder: (context, state) {
+            final id = int.tryParse(state.pathParameters['id'] ?? '');
+            return NoTransitionPage(
+              key: ValueKey('vehicle-edit-$id'),
               child: id == null
                   ? const _NotFound()
                   : VehicleFormScreen(

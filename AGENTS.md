@@ -79,9 +79,13 @@ netlify.toml · netlify-build.sh · web/_redirects   ← deployment
 | `vms_core` | config, `ApiClient`, `Result`, `ApiError`, `AuthSession`, `AppRoutes`, `FeatureModule`, `UiPreferences` | flutter, go_router, http |
 | `vms_design_system` | tokens, theme, widgets (mirrors `.agents/skills/vms-ui`) | flutter, material_ui |
 | `vms_catalog` | catalog data shared by features | vms_core |
+| `vms_fleet_records` | documents, maintenance, drivers: models, repositories, shared record widgets | core, design system |
 | `feature_auth` | sign-in | core, design system |
-| `feature_dashboard` | dashboard | core, design system |
-| `feature_vehicles` | list, filters, register/edit, plate input | core, design system, catalog |
+| `feature_dashboard` | dashboard | core, design system, fleet records |
+| `feature_vehicles` | list, filters, register/edit, plate input, vehicle page (driver, documents, maintenance) | core, design system, catalog, fleet records |
+| `feature_drivers` | driver list, add/edit, assignment history | core, design system, fleet records |
+| `feature_documents` | fleet-wide document expiry tracking | core, design system, fleet records |
+| `feature_maintenance` | fleet maintenance log | core, design system, fleet records |
 | `feature_settings` | catalogs, columns, dashboard cards | core, design system, catalog |
 
 **Feature packages never import each other.** Navigate with `AppRoutes`; share

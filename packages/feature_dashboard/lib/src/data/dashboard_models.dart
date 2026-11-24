@@ -1,4 +1,5 @@
 import 'package:vms_core/vms_core.dart';
+import 'package:vms_fleet_records/vms_fleet_records.dart';
 
 class DashboardSlice {
   const DashboardSlice({required this.name, required this.count});
@@ -52,6 +53,11 @@ class DashboardSummary {
     required this.byBrand,
     required this.recentlyUpdated,
     required this.inMaintenance,
+    this.documents,
+    this.documentAlerts = const [],
+    this.maintenanceStats,
+    this.recentMaintenance = const [],
+    this.drivers,
   });
 
   factory DashboardSummary.fromJson(Map<String, dynamic> j) {
@@ -67,6 +73,11 @@ class DashboardSummary {
       byBrand: list('byBrand', DashboardSlice.fromJson),
       recentlyUpdated: list('recentlyUpdated', DashboardVehicle.fromJson),
       inMaintenance: list('inMaintenance', DashboardVehicle.fromJson),
+      documents: j['documents'] is Map ? DocumentStats.fromJson(asMap(j['documents'])) : null,
+      documentAlerts: list('documentAlerts', DocumentAlert.fromJson),
+      maintenanceStats: j['maintenance'] is Map ? MaintenanceStats.fromJson(asMap(j['maintenance'])) : null,
+      recentMaintenance: list('recentMaintenance', MaintenanceRecord.fromJson),
+      drivers: j['drivers'] is Map ? DriverStats.fromJson(asMap(j['drivers'])) : null,
     );
   }
 
@@ -78,4 +89,11 @@ class DashboardSummary {
   final List<DashboardSlice> byBrand;
   final List<DashboardVehicle> recentlyUpdated;
   final List<DashboardVehicle> inMaintenance;
+
+  // Fleet management (null / empty when talking to an older API).
+  final DocumentStats? documents;
+  final List<DocumentAlert> documentAlerts;
+  final MaintenanceStats? maintenanceStats;
+  final List<MaintenanceRecord> recentMaintenance;
+  final DriverStats? drivers;
 }

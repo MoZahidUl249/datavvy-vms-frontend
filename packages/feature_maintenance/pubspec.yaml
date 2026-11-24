@@ -1,0 +1,25 @@
+name: feature_maintenance
+description: "Fleet maintenance log: every service and repair, cost by month, search and filters."
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.1.0
+  go_router: '>=16.0.0 <18.0.0'
+  vms_core:
+    path: ../vms_core
+  vms_design_system:
+    path: ../vms_design_system
+  vms_fleet_records:
+    path: ../vms_fleet_records
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  http: ^1.2.0

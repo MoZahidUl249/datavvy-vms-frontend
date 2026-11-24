@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   go_router: '>=16.0.0 <18.0.0'
   http: ^1.2.0
+  # Browser file chooser and downloads (dart:js_interop bindings, no plugin).
+  web: ^1.1.0
 
 dev_dependencies:
   flutter_test:

@@ -32,6 +32,7 @@ class VehicleTable extends StatelessWidget {
     required this.sort,
     required this.onSort,
     required this.onOpen,
+    required this.onEdit,
     required this.onDelete,
     required this.canManage,
     this.highlightId,
@@ -42,7 +43,11 @@ class VehicleTable extends StatelessWidget {
   final List<VehicleColumn> columns;
   final VehicleSort sort;
   final ValueChanged<String> onSort;
+  /// Plate and View: the vehicle page.
   final ValueChanged<Vehicle> onOpen;
+
+  /// Edit: the vehicle form.
+  final ValueChanged<Vehicle> onEdit;
   final ValueChanged<Vehicle> onDelete;
   final bool canManage;
   final int? highlightId;
@@ -196,7 +201,7 @@ class VehicleTable extends StatelessWidget {
                         label: 'Edit',
                         small: true,
                         variant: VmsButtonVariant.secondary,
-                        onPressed: () => onOpen(v),
+                        onPressed: () => onEdit(v),
                       ),
                       const SizedBox(width: 8),
                       VmsButton(
