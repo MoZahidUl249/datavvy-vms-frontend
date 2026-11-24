@@ -71,7 +71,7 @@ class _AssignDriverDialogState extends State<_AssignDriverDialog> {
     final result = await widget.repository.list(DriverQuery(search: _search.text, size: 50));
     if (!mounted) return;
     setState(() {
-      _drivers = result.valueOrNull ?? _drivers;
+      _drivers = result.valueOrNull?.items ?? _drivers;
       _loadError = result.errorOrNull;
     });
   }
