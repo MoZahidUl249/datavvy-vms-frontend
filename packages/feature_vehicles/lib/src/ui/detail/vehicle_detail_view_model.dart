@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:vms_core/vms_core.dart';
 import 'package:vms_fleet_records/vms_fleet_records.dart';

@@ -79,8 +79,24 @@ Every vehicle has exactly **Vehicle Number, Company, Type, Brand, Model, Status*
 - Column picker; brand and model show under the number when their columns are off
 - Paging, loading skeletons, first-run and no-results states; delete asks for confirmation
 
+### Vehicle page (`/vehicles/:id`)
+One page per vehicle — open it from the plate in the list, the dashboard or any other screen:
+- **Details** and status, with **Edit vehicle** (`/vehicles/:id/edit`)
+- **Driver**: current driver with licence status; **Assign / Change / Unassign**. The picker greys out drivers who are on leave, inactive or have an expired licence, and asks before moving a driver from another vehicle. Previous drivers are listed underneath
+- **Documents**: Registration, Tax Token, Insurance, Fitness, Route Permit and others. Upload a PDF or photo (5 MB), view or download it, edit details or renew (new expiry date, replace file). Each paper shows *Expired / Expiring soon / Valid / No expiry* as colour + word, expired first; missing standard papers are offered as one-click uploads
+- **Maintenance history**: date, type, workshop, odometer, cost and notes, newest first, with total cost, last 12 months and last service on top; **Record maintenance**, edit and delete
+
+### Drivers
+List with server-side search (name, mobile, licence), status segments with counts, *on a vehicle / without a vehicle* filter, sorting and paging. Each row shows licence expiry and the vehicle (tap the plate). Add / edit form with Bangladeshi mobile and licence checks; the edit page shows the current vehicle and the vehicles the driver drove before.
+
+### Documents
+Fleet-wide expiry tracking. Opens on **Needs attention** (expired + expiring in 30 days); segments for Expired / Expiring soon / Valid / No expiry / All with counts; search by vehicle number or document number, filter by type, sort by expiry; view or download any file.
+
+### Maintenance
+Fleet maintenance log: cost this month, vehicles serviced in 30 days and all-time cost on top; search (vehicle number, workshop, notes), type and date-range filters, sorting, paging and a page total.
+
 ### Dashboard
-Cards for total, active, inactive and in-maintenance vehicles, each linking to the filtered list; bars by type and by brand; "Recently updated" and "In maintenance" lists. Optional cards are switched on or off in Settings.
+Vehicle KPIs (total, active, inactive, in maintenance) and a second row for **documents expired**, **expiring in 30 days**, **maintenance cost this month** and **drivers available** — every number links to the list behind it. Cards: documents needing attention, maintenance cost by month (6 months), recent maintenance, drivers, bars by type and brand, recently updated, in maintenance. Optional cards are switched on or off in Settings.
 
 ### Settings
 - Vehicle types: add by typing and pressing Enter. A type in use can't be removed or renamed; at least one type must remain
@@ -90,8 +106,8 @@ Cards for total, active, inactive and in-maintenance vehicles, each linking to t
 | Role | Can do |
 |---|---|
 | **Admin** | Everything, including Settings lists |
-| **Fleet manager** | Create, edit and delete vehicles |
-| **Viewer** | Read only: no Register, Edit or Delete; the form opens in view mode |
+| **Fleet manager** | Create, edit and delete vehicles, documents, maintenance records and drivers; assign drivers |
+| **Viewer** | Read only: can view and download everything; no Register, Upload, Record, Assign, Edit or Delete |
 
 Signing in survives a page reload (the session is kept for the browser tab) and ends when the tab closes.
 
@@ -179,9 +195,13 @@ packages/
 ├── vms_core               ApiClient, Result<T>, ApiError, AuthSession (+ session store), AppRoutes, FeatureModule, UiPreferences
 ├── vms_design_system      tokens + widgets (VmsPage, VmsButton, PlateBadge, StatusPill, VmsDayPicker …)
 ├── vms_catalog            vehicle-type data shared by features
+├── vms_fleet_records      documents, maintenance, drivers: models, repositories, expiry pill, upload / maintenance / assign dialogs
 ├── feature_auth           sign-in
 ├── feature_dashboard      dashboard
-├── feature_vehicles       list, filters, register/edit, plate input
+├── feature_vehicles       list, filters, register/edit, plate input, vehicle page
+├── feature_drivers        driver list, add / edit, assignment history
+├── feature_documents      fleet-wide document expiry tracking
+├── feature_maintenance    fleet maintenance log
 └── feature_settings       vehicle types, columns, dashboard cards
 ```
 
@@ -203,6 +223,8 @@ Each feature: `data/` (models matching the OpenAPI contract, repository returnin
 | 8 | **API URL baked in at build time** (`--dart-define`) | No runtime config file; one static build per environment | Rebuild to change the API address | Many environments → load `config.json` at startup |
 | 9 | **Netlify builds Flutter itself** (`netlify-build.sh`) | Push to deploy, no build server | First build downloads the SDK (cached after) | Slow builds → build in GitHub Actions and deploy the artifact |
 | 10 | **UI preferences in memory** | Phase 1 scope | Reset on reload | Per-user preferences endpoint |
+| 11 | **`vms_fleet_records` data package with its dialogs** | The vehicle page and the Drivers / Documents / Maintenance screens show the same records; features can't import each other | One package shared by two teams (both own it in CODEOWNERS) | It grows → split per record type |
+| 12 | **Files through `package:web`, no plugin** | Upload = hidden `<input type=file>`; download = Blob + link; tiny and web-only | Not usable on mobile builds | Mobile needed → `file_picker` |
 
 ---
 
@@ -214,6 +236,11 @@ Each feature: `data/` (models matching the OpenAPI contract, repository returnin
 | `packages/vms_core/test` | API error parsing, session persistence (reload, sign-out, expired and corrupt stored sessions) |
 | `packages/feature_auth/test` | Login view model |
 | `packages/feature_vehicles/test` | Plate parsing, filters, JSON mapping |
+| `packages/vms_fleet_records/test` | Taka formatting (lakh grouping), expiry wording, document / maintenance / driver JSON and drafts, who can be assigned |
+| `packages/feature_drivers/test` | Driver form: local checks, +880 numbers, duplicate licence from the API shown on the field (HTTP faked with `MockClient`) |
+| `packages/feature_documents/test` | Expiry segments from dashboard links, counts |
+| `packages/feature_maintenance/test` | Filters sent as query parameters, page total |
+| `packages/vms_core/test` | + routes for the vehicle page and filtered lists, JSON date / money helpers |
 
 ```bash
 flutter analyze
